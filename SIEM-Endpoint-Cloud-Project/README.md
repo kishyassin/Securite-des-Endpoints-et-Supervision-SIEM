@@ -8,12 +8,12 @@
 
 ## 📋 Informations Académiques
 
-| Élément                 | Détail                       |
-| ----------------------- | ---------------------------- |
-| **Professeur**          | Prof. Azeddine KHIAT         |
-| **Année Universitaire** | 2025/2026                    |
-| **Filière**             | GLSID                        |
-| **Date de Rendu**       | 07 janvier 2026              |
+| Élément                 | Détail               |
+| ----------------------- | -------------------- |
+| **Professeur**          | Prof. Azeddine KHIAT |
+| **Année Universitaire** | 2025/2026            |
+| **Filière**             | GLSID                |
+| **Date de Rendu**       | 07 janvier 2026      |
 
 ---
 
@@ -322,7 +322,7 @@ Windows-Client SG:
 
 ## ✍️ Auteur
 
-**Étudiant** : KICH YASSINE   
+**Étudiant** : KICH YASSINE  
 **Professeur** : Prof. Azeddine KHIAT  
 **Date** : 07 Janvier 2026  
 **Établissement** : ENSET
