@@ -1,3 +1,5 @@
+![SIEM / EDR Cloud Banner](assets/banner.png)
+
 # 🔐 Atelier Sécurité des Endpoints et Supervision SIEM
 
 ## Étude de Cas Multi-OS (Linux & Windows)
@@ -54,6 +56,10 @@ VPC (SIEM-Lab-VPC)
    ├─ Type: t2.medium
    └─ Stockage: 30GB
 ```
+
+### Vue d'ensemble (diagramme)
+
+![Architecture Wazuh SIEM/EDR](assets/siem%26edr%20cloud%20security.jpg)
 
 ### Flux de Communication
 
