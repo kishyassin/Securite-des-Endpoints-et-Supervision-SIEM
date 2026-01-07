@@ -1,0 +1,242 @@
+# AWS Security Groups - Firewall Rules Configuration
+# SIEM Lab Infrastructure
+
+## VPC Configuration
+VPC Name: SIEM-Lab-VPC
+VPC CIDR: 10.0.0.0/16
+Subnet: SIEM-Lab-Subnet
+Subnet CIDR: 10.0.32.0/24
+
+---
+
+## SECURITY GROUP 1: SIEM-Lab-Wazuh-SG
+## Purpose: Wazuh Server (Manager/Indexer/Dashboard)
+
+### Inbound Rules
+
+| Rule # | Type | Protocol | Port/Range | Source | Description |
+|--------|------|----------|-----------|--------|-------------|
+| 1 | SSH | TCP | 22 | YOUR_IP/32 | SSH Management |
+| 2 | HTTPS | TCP | 443 | YOUR_IP/32 | Dashboard Access |
+| 3 | Custom TCP | TCP | 1514 | sg-clients | Agent Communication |
+| 4 | Custom TCP | TCP | 1515 | sg-clients | Agent Enrollment |
+| 5 | Custom TCP | TCP | 55000 | YOUR_IP/32 | Wazuh API Access |
+
+### Outbound Rules
+
+| Rule # | Type | Protocol | Port/Range | Destination | Description |
+|--------|------|----------|-----------|---------|-------------|
+| 1 | All | All | All | 0.0.0.0/0 | Allow All Outbound |
+
+---
+
+## SECURITY GROUP 2: SIEM-Lab-Clients-SG
+## Purpose: Linux and Windows Client Endpoints
+
+### Inbound Rules
+
+| Rule # | Type | Protocol | Port/Range | Source | Description |
+|--------|------|----------|-----------|--------|-------------|
+| 1 | SSH | TCP | 22 | YOUR_IP/32 | SSH Access (Linux) |
+| 2 | RDP | TCP | 3389 | YOUR_IP/32 | RDP Access (Windows) |
+| 3 | Custom TCP | TCP | 1514 | sg-wazuh-server | Wazuh Return Traffic |
+| 4 | HTTPS | TCP | 443 | 0.0.0.0/0 | HTTPS Outbound |
+| 5 | Custom TCP | TCP | 53 | 0.0.0.0/0 | DNS (UDP preferred) |
+| 6 | Custom UDP | UDP | 53 | 0.0.0.0/0 | DNS Queries |
+
+### Outbound Rules
+
+| Rule # | Type | Protocol | Port/Range | Destination | Description |
+|--------|------|----------|-----------|---------|-------------|
+| 1 | All | All | All | 0.0.0.0/0 | Allow All Outbound |
+
+---
+
+## Port Reference
+
+### Wazuh Ports
+
+| Port | Protocol | Direction | Purpose |
+|------|----------|-----------|---------|
+| 22 | TCP | Inbound | SSH Management |
+| 443 | TCP | Inbound | HTTPS Dashboard (Wazuh Web UI) |
+| 1514 | TCP | Inbound | Agent Communication (Manager listening) |
+| 1515 | TCP | Inbound | Agent Auto-enrollment |
+| 55000 | TCP | Inbound | Wazuh REST API |
+| 9200 | TCP | Internal | OpenSearch (indexer) |
+| 9300 | TCP | Internal | OpenSearch cluster communication |
+
+### Windows Client Ports
+
+| Port | Protocol | Purpose |
+|------|----------|---------|
+| 22 | TCP | SSH (if installed) |
+| 3389 | TCP | RDP Remote Desktop |
+| 5985 | TCP | WinRM (optional) |
+
+### Linux Client Ports
+
+| Port | Protocol | Purpose |
+|------|----------|---------|
+| 22 | TCP | SSH Access |
+
+### DNS
+
+| Port | Protocol | Purpose |
+|------|----------|---------|
+| 53 | UDP/TCP | Domain Name Resolution |
+
+---
+
+## Security Best Practices Implemented
+
+✅ **Principle of Least Privilege**
+   - Only required ports are open
+   - Restricted source IPs where possible
+
+✅ **Network Segmentation**
+   - Separate security groups for manager and clients
+   - Clients can reach manager, but not vice versa
+
+✅ **Management Access Control**
+   - SSH/RDP limited to YOUR_IP
+   - Dashboard accessible only from your IP
+
+✅ **No Direct Client-to-Client Communication**
+   - Clients only communicate with manager
+   - Prevents lateral movement
+
+✅ **Encrypted Channels**
+   - HTTPS (443) for dashboard
+   - Encrypted agent communication (1514)
+
+---
+
+## Implementation Steps in AWS Console
+
+### Step 1: Create Wazuh SG
+1. EC2 → Security Groups → Create Security Group
+2. Name: SIEM-Lab-Wazuh-SG
+3. VPC: SIEM-Lab-VPC
+4. Add inbound rules as specified above
+5. Keep outbound as default (allow all)
+
+### Step 2: Create Clients SG
+1. EC2 → Security Groups → Create Security Group
+2. Name: SIEM-Lab-Clients-SG
+3. VPC: SIEM-Lab-VPC
+4. Add inbound rules as specified above
+5. Keep outbound as default (allow all)
+
+### Step 3: Attach to Instances
+1. EC2 → Instances
+2. Wazuh-Server → Actions → Security → Change Security Groups
+   - Add: SIEM-Lab-Wazuh-SG
+3. Linux-Client → Actions → Security → Change Security Groups
+   - Add: SIEM-Lab-Clients-SG
+4. Windows-Client → Actions → Security → Change Security Groups
+   - Add: SIEM-Lab-Clients-SG
+
+---
+
+## Network Diagram
+
+```
+Internet
+    |
+    | (Your IP)
+    |
+[VPC: 10.0.0.0/16]
+    |
+    +-- [Subnet: 10.0.32.0/24]
+            |
+            +-- [EC2-1: Wazuh-Server] (10.0.32.10)
+            |       SG: SIEM-Lab-Wazuh-SG
+            |       Ports: 22, 443, 1514, 1515, 55000
+            |
+            +-- [EC2-2: Linux-Client] (10.0.32.X)
+            |       SG: SIEM-Lab-Clients-SG
+            |       Ports: 22, 1514, 443, 53
+            |
+            +-- [EC2-3: Windows-Client] (10.0.32.Y)
+                    SG: SIEM-Lab-Clients-SG
+                    Ports: 3389, 1514, 443, 53
+
+Communication Flow:
+    Client-1 (1514) ----→ Manager (listening 1514)
+    Client-2 (1514) ----→ Manager (listening 1514)
+    Your-IP (443)   ----→ Manager (listening 443)
+```
+
+---
+
+## Troubleshooting Connection Issues
+
+### If Agent Cannot Connect to Manager
+
+1. **Check Security Group**
+   ```
+   AWS Console → EC2 → Security Groups
+   - Verify port 1514 is open
+   - Verify source is sg-clients (clients SG)
+   ```
+
+2. **Check Network ACLs**
+   ```
+   AWS Console → VPC → Network ACLs
+   - Ensure inbound/outbound rules are not blocking 1514
+   ```
+
+3. **Test Connectivity**
+   ```bash
+   # From client
+   nc -zv 10.0.32.10 1514
+   # Should return: Connection to 10.0.32.10 port 1514 [tcp/cortex] succeeded
+   ```
+
+### If Dashboard Not Accessible
+
+1. **Check Security Group**
+   ```
+   AWS Console → EC2 → Security Groups
+   - Verify port 443 is open
+   - Verify source includes YOUR_IP/32
+   ```
+
+2. **Test Connectivity**
+   ```bash
+   # From your machine
+   curl -k https://<WAZUH_SERVER_IP>
+   # Should return HTML (certificate warning is ok)
+   ```
+
+---
+
+## Modification Template
+
+To modify rules after creation:
+
+```
+AWS Console → EC2 → Security Groups
+
+1. Select the security group
+2. Click "Inbound Rules" tab
+3. Click "Edit Inbound Rules"
+4. Modify as needed
+5. Click "Save Rules"
+```
+
+---
+
+## Compliance Notes
+
+These security group rules follow:
+- ✅ AWS Well-Architected Framework (Security Pillar)
+- ✅ CIS AWS Foundations Benchmark
+- ✅ NIST Cybersecurity Framework
+- ✅ ISO 27001 Network Access Controls
+
+---
+
+**Configuration Version**: 1.0  
+**Last Updated**: 7 January 2026

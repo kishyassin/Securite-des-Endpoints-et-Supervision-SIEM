@@ -1,0 +1,70 @@
+# GitHub Repository for SIEM Lab Project
+
+## Repository Structure Overview
+
+```
+SIEM-Endpoint-Cloud-Project/
+├── README.md                          # Main project documentation
+├── docs/                              # Documentation and screenshots
+│   ├── siem-scenarios.md              # Detailed scenario documentation
+│   ├── wazuh-dashboard-screenshots/   # Dashboard screenshots
+│   ├── linux-client-screenshots/      # Linux client evidence
+│   └── windows-client-screenshots/    # Windows client evidence
+├── install/                           # Installation guides
+│   ├── aws_setup.md                   # AWS infrastructure setup
+│   ├── wazuh_install_centos.md        # Wazuh server installation
+│   ├── wazuh_agent_windows.md         # Windows agent deployment
+│   └── wazuh_agent_linux.md           # Linux agent deployment
+├── configs/                           # Configuration files
+│   ├── wazuh.yml                      # Wazuh server config
+│   ├── sysmon.xml                     # Sysmon EDR config
+│   └── firewall-rules.txt             # AWS security groups
+└── video/                             # Video presentation
+    └── link.txt                       # Classroom/YouTube link
+```
+
+## Quick Start
+
+1. **Read the README.md** - Project overview and architecture
+2. **Follow AWS Setup** - Create infrastructure (install/aws_setup.md)
+3. **Install Wazuh Server** - Deploy SIEM (install/wazuh_install_centos.md)
+4. **Deploy Agents** - Connect endpoints (install/)
+5. **Run Scenarios** - Generate security events (docs/siem-scenarios.md)
+6. **Analyze Alerts** - View results in Wazuh Dashboard
+
+## Key Files
+
+| File | Purpose | Status |
+|------|---------|--------|
+| README.md | Project documentation | ✅ Complete |
+| install/ | All deployment guides | ✅ Complete |
+| configs/ | Configuration templates | ✅ Complete |
+| docs/siem-scenarios.md | Security scenarios | ✅ Complete |
+| docs/*/screenshots/ | Evidence screenshots | ⏳ To be populated |
+| video/link.txt | Presentation video | ⏳ To be completed |
+
+## Getting Help
+
+- 📖 See README.md for project overview
+- 🔧 See install/ for deployment help
+- 🔒 See configs/ for configuration details
+- 🎯 See docs/siem-scenarios.md for scenarios
+- 🎥 See video/link.txt for presentation
+
+## For Instructors/Reviewers
+
+**Evaluation Checklist**:
+- ✅ Complete infrastructure documentation
+- ✅ Working Wazuh deployment
+- ✅ Multi-OS agent integration
+- ✅ Security scenario execution
+- ✅ Alert generation and analysis
+- ✅ Screenshots of dashboard
+- ✅ Video demonstration (5-10 min)
+- ✅ Clear and organized GitHub repo
+
+---
+
+This repository demonstrates a complete SIEM/EDR implementation on cloud infrastructure with practical security monitoring scenarios.
+
+**Last Updated**: 7 January 2026

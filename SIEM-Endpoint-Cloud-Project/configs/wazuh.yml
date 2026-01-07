@@ -1,0 +1,204 @@
+# Wazuh Server Configuration
+
+## This file contains the main configuration for Wazuh Server
+## Location: /var/ossec/etc/ossec.conf
+
+## For production deployments, this should be customized based on:
+## - Number of agents
+## - Expected event volume
+## - Storage capacity
+## - Security requirements
+
+# WAZUH MANAGER CONFIGURATION
+# ==========================
+
+<!-- Log settings -->
+<global>
+<jsonout_output>yes</jsonout_output>
+<alerts_log>yes</alerts_log>
+<logall>no</logall>
+<logall_json>no</logall_json>
+<integrity_monitoring>yes</integrity_monitoring>
+<rootcheck>yes</rootcheck>
+<syscheck>yes</syscheck>
+<max_output_size>16384</max_output_size>
+<response_timeout>1</response_timeout>
+<compress_alerts>no</compress_alerts>
+<compression_algorithm>zlib</compression_algorithm>
+</global>
+
+<!-- Alerts configuration -->
+<alerts>
+<log_alert_level>3</log_alert_level>
+<email_notification>no</email_notification>
+<smtp_server>smtp.example.com</smtp_server>
+<email_from>wazuh@example.com</email_from>
+<email_maxperhour>12</email_maxperhour>
+<email_log_source>alerts.log</email_log_source>
+<log_alert_level>3</log_alert_level>
+</alerts>
+
+<!-- Remote syslog server (optional) -->
+<!--
+<syslog_output>
+<server>192.168.1.100</server>
+<port>514</port>
+<protocol>udp</protocol>
+</syslog_output>
+-->
+
+<!-- RESTful API configuration -->
+<api>
+<enabled>yes</enabled>
+<host>0.0.0.0</host>
+<port>55000</port>
+<https>yes</https>
+<log_path>/var/ossec/logs/api.log</log_path>
+</api>
+
+<!-- Manager network settings -->
+<remote>
+<connection>secure</connection>
+<port>1514</port>
+<protocol>tcp</protocol>
+<max_clients>300</max_clients>
+<queue_size>131072</queue_size>
+<!-- Auto enrollment -->
+<enrollment>
+<enabled>yes</enabled>
+<manager_address>10.0.32.10</manager_address>
+<port>1515</port>
+<agent_auto_registration>yes</agent_auto_registration>
+<agent_lifetime_seconds>3600</agent_lifetime_seconds>
+<manager_cert>etc/ssl/certs/manager.crt</manager_cert>
+<manager_key>etc/ssl/private/manager.key</manager_key>
+<agent_cert>etc/ssl/certs/agent.crt</agent_cert>
+</enrollment>
+</remote>
+
+<!-- Cluster configuration (for multi-node setup) -->
+<!--
+<cluster>
+<name>wazuh-cluster</name>
+<node_name>wazuh-manager</node_name>
+<node_type>master</node_type>
+<key>your-cluster-key</key>
+<port>1516</port>
+<bind_addr>0.0.0.0</bind_addr>
+<nodes>
+<node>10.0.32.10</node>
+</nodes>
+<hidden>no</hidden>
+<disabled>yes</disabled>
+</cluster>
+-->
+
+<!-- Custom ruleset -->
+<ruleset>
+<decoder_dir>decoders</decoder_dir>
+<rule_dir>rules</rule_dir>
+<rule_exclude>rules/rundll32.xml</rule_exclude>
+<list>etc/lists/audit-keys</list>
+<list>etc/lists/amazon/aws-eventnames</list>
+</ruleset>
+
+<!-- Vulnerability detection -->
+<vulnerability-detection>
+<enabled>yes</enabled>
+<index_status>yes</index_status>
+</vulnerability-detection>
+
+<!-- Active response -->
+<active-response>
+<disabled>no</disabled>
+<log_alert_level>3</log_alert_level>
+<location>local</location>
+<default_timeout>300</default_timeout>
+</active-response>
+
+<!-- Custom alerts and responses -->
+<!--
+<command>
+<name>block-ip</name>
+<executable>block.sh</executable>
+<expect>srcip</expect>
+<timeout_allowed>yes</timeout_allowed>
+</command>
+
+<active-response>
+<command>block-ip</command>
+<location>local</location>
+<rules_id>31151</rules_id>
+</active-response>
+-->
+
+<!-- Integrity monitoring (syscheck) -->
+<syscheck>
+<frequency>43200</frequency>
+<scan_on_start>yes</scan_on_start>
+<scan_day>Saturday</scan_day>
+<scan_time>3:00 am</scan_time>
+<max_dir_complexity>50</max_dir_complexity>
+<max_audit_entries_diff>256</max_audit_entries_diff>
+<disk_quota_enabled>no</disk_quota_enabled>
+<disk_quota_limit_mb>500</disk_quota_limit_mb>
+<disk_quota_interval>cicle</disk_quota_interval>
+<disk_quota_min_free_mb>50</disk_quota_min_free_mb>
+<honor_echo_off>yes</honor_echo_off>
+
+<!-- File/directory monitoring -->
+<directories realtime="yes">/etc</directories>
+<directories realtime="yes">/usr/bin</directories>
+<directories realtime="yes">/usr/sbin</directories>
+<directories realtime="yes">/root</directories>
+<directories realtime="no">/boot</directories>
+
+<!-- Exclusions -->
+<ignore>/proc</ignore>
+<ignore>/dev</ignore>
+<ignore>/sys</ignore>
+<ignore>/tmp</ignore>
+</syscheck>
+
+<!-- Rootkit detection -->
+<rootcheck>
+<rootkit_files>/var/ossec/etc/rootcheck/rootkit_files.txt</rootkit_files>
+<rootkit_trojans>/var/ossec/etc/rootcheck/rootkit_trojans.txt</rootkit_trojans>
+<check_dev>yes</check_dev>
+<check_files>yes</check_files>
+<check_if>yes</check_if>
+<check_pids>yes</check_pids>
+<check_ports>yes</check_ports>
+<check_sys>yes</check_sys>
+<check_trojans>yes</check_trojans>
+<skip_nfs>yes</skip_nfs>
+</rootcheck>
+
+<!-- Audit monitoring -->
+<localfile>
+<log_format>audit</log_format>
+<location>/var/log/audit/audit.log</location>
+</localfile>
+
+<!-- Syslog monitoring -->
+<localfile>
+<log_format>syslog</log_format>
+<location>/var/log/messages</location>
+</localfile>
+
+<localfile>
+<log_format>syslog</log_format>
+<location>/var/log/auth.log</location>
+</localfile>
+
+<localfile>
+<log_format>syslog</log_format>
+<location>/var/log/secure</location>
+</localfile>
+
+<!-- Wazuh agent status monitoring -->
+<localfile>
+<log_format>json</log_format>
+<location>/var/ossec/logs/wazuh.log</location>
+</localfile>
+## END OF CONFIGURATION

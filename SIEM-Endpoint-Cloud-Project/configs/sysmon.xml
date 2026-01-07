@@ -1,0 +1,165 @@
+# Sysmon Configuration for Advanced EDR Monitoring
+# This configuration is based on SwiftOnSecurity's Sysmon Config
+# Customized for SIEM Lab environment
+
+# Installation: sysmon.exe -accepteula -i sysmonconfig.xml
+# Update: sysmon.exe -c sysmonconfig.xml
+
+<Sysmon schemaversion="4.80">
+  <HashAlgorithms>md5,sha256,IMPHASH</HashAlgorithms>
+  <CheckRevoke>true</CheckRevoke>
+
+  <!-- Event 1: Process creation -->
+  <ProcessCreate onmatch="exclude">
+    <!-- System processes -->
+    <CommandLine condition="image">System</CommandLine>
+    <CommandLine condition="image">Registry</CommandLine>
+    <CommandLine condition="image">MemCompression</CommandLine>
+    <ParentImage condition="image">svchost.exe</ParentImage>
+  </ProcessCreate>
+
+  <!-- Event 2: A process changed a file creation time -->
+  <FileCreateTime onmatch="exclude">
+    <UtcTime condition="excludeS">Z</UtcTime>
+  </FileCreateTime>
+
+  <!-- Event 3: Network connection detected -->
+  <NetworkConnect onmatch="exclude">
+    <!-- Exclude local network traffic -->
+    <DestinationIp condition="is">127.0.0.1</DestinationIp>
+    <DestinationIp condition="is">::1</DestinationIp>
+    <DestinationPort condition="is">53</DestinationPort>
+  </NetworkConnect>
+
+  <!-- Event 5: Process terminated -->
+  <ProcessTerminate onmatch="exclude">
+  </ProcessTerminate>
+
+  <!-- Event 6: Driver loaded -->
+  <DriverLoad onmatch="exclude">
+    <Signed condition="is">true</Signed>
+  </DriverLoad>
+
+  <!-- Event 7: Image loaded (DLL injection) -->
+  <ImageLoad onmatch="exclude">
+    <ImageLoaded condition="image">system32</ImageLoaded>
+    <Signed condition="is">true</Signed>
+  </ImageLoad>
+
+  <!-- Event 8: CreateRemoteThread detected -->
+  <CreateRemoteThread onmatch="exclude">
+  </CreateRemoteThread>
+
+  <!-- Event 9: RawAccessThread detected -->
+  <RawAccessThread onmatch="exclude">
+  </RawAccessThread>
+
+  <!-- Event 10: Process accessed -->
+  <ProcessAccess onmatch="exclude">
+  </ProcessAccess>
+
+  <!-- Event 11: File created -->
+  <FileCreate onmatch="exclude">
+    <TargetFilename condition="image">System Volume Information</TargetFilename>
+    <TargetFilename condition="image">WinSxS</TargetFilename>
+  </FileCreate>
+
+  <!-- Event 12: Registry object created or deleted -->
+  <RegistryCreate onmatch="exclude">
+    <TargetObject condition="image">Services</TargetObject>
+  </RegistryCreate>
+
+  <!-- Event 13: Registry value set -->
+  <RegistrySet onmatch="exclude">
+    <TargetObject condition="image">Services</TargetObject>
+  </RegistrySet>
+
+  <!-- Event 14: Registry object renamed -->
+  <RegistryRename onmatch="exclude">
+  </RegistryRename>
+
+  <!-- Event 15: File stream created -->
+  <FileCreateStreamHash onmatch="exclude">
+  </FileCreateStreamHash>
+
+  <!-- Event 17: Pipe created -->
+  <PipeEvent onmatch="exclude">
+  </PipeEvent>
+
+  <!-- Event 18: Pipe event (connection) -->
+  <PipeConnect onmatch="exclude">
+  </PipeConnect>
+
+  <!-- Event 19: WMI event -->
+  <WmiEvent onmatch="exclude">
+  </WmiEvent>
+
+  <!-- Event 20: WMI consumer event -->
+  <WmiConsumerEvent onmatch="exclude">
+  </WmiConsumerEvent>
+
+  <!-- Event 21: WMI consumer filter event -->
+  <WmiConsumerFilterEvent onmatch="exclude">
+  </WmiConsumerFilterEvent>
+
+  <!-- Event 22: DNS query -->
+  <DnsQuery onmatch="exclude">
+    <QueryName condition="image">.local</QueryName>
+  </DnsQuery>
+
+  <!-- Event 23: File delete detected -->
+  <FileDelete onmatch="exclude">
+    <TargetFilename condition="image">Recycle.Bin</TargetFilename>
+  </FileDelete>
+
+  <!-- Event 24: Clipboard monitoring -->
+  <ClipboardChange onmatch="exclude">
+  </ClipboardChange>
+
+  <!-- Event 25: Process tampering detected -->
+  <ProcessTampering onmatch="exclude">
+  </ProcessTampering>
+
+  <!-- Event 26: Hump (Helper DLL) loaded -->
+  <FileExecutableDetected onmatch="exclude">
+  </FileExecutableDetected>
+
+  <!-- Event 27: File block executable -->
+  <FileBlockExecutable onmatch="exclude">
+  </FileBlockExecutable>
+
+  <!-- Event 28: File block shredding -->
+  <FileBlockShredding onmatch="exclude">
+  </FileBlockShredding>
+
+</Sysmon>
+
+<!-- 
+DEPLOYMENT INSTRUCTIONS:
+========================
+
+1. Download Sysmon
+   - Source: https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+
+2. Save this file as: sysmonconfig.xml
+
+3. Install with configuration:
+   sysmon.exe -accepteula -i sysmonconfig.xml
+
+4. Verify installation:
+   - Event Viewer → Applications and Services Logs → Microsoft-Windows-Sysmon → Operational
+   - Should see events logged
+
+5. Update configuration (if needed):
+   sysmon.exe -c sysmonconfig.xml
+
+6. Uninstall (if needed):
+   sysmon.exe -u
+
+NOTES:
+======
+- This configuration filters out benign/system events
+- Focuses on security-relevant events
+- Adjust inclusion/exclusion rules based on your environment
+- Monitor disk space (Sysmon generates many events)
+-->

@@ -1,0 +1,215 @@
+# SIEM Lab Video Link - Google Classroom
+
+## Video Upload Instructions
+
+### Platform: Google Classroom
+
+**Steps to Upload:**
+1. Log in to your Google Classroom
+2. Navigate to the assignment "Atelier Sécurité des endpoints et supervision SIEM"
+3. Click "Your work"
+4. Attach your video (unlisted YouTube or direct file upload)
+
+### Video Requirements
+
+- **Duration**: 5-10 minutes maximum
+- **Format**: MP4, MOV, or direct YouTube link
+- **Resolution**: 720p minimum (1080p preferred)
+- **Audio**: Clear and professional
+- **Subtitles**: Optional but recommended
+
+---
+
+## Video Content Outline (5-10 minutes)
+
+### 1. Introduction (30 seconds)
+- Project title and objectives
+- Team members
+- Brief context
+
+### 2. Architecture Overview (1 minute)
+- VPC diagram
+- Three instances (Wazuh Server, Linux Client, Windows Client)
+- Network topology
+- Security Groups
+
+### 3. Infrastructure Deployment (1.5 minutes)
+- AWS EC2 instance creation
+- Subnet and VPC configuration
+- Security group setup
+- Instance status verification
+
+### 4. Wazuh Server Installation (1.5 minutes)
+- Installation script execution
+- Service verification (Manager, Indexer, Dashboard)
+- Dashboard access and login
+- Admin credentials
+
+### 5. Agent Deployment (1 minute)
+- Linux agent installation and enrollment
+- Windows agent installation and enrollment
+- Agent status in dashboard (Active agents)
+
+### 6. Security Event Generation (1.5 minutes)
+- SSH brute force demonstration (Linux)
+- Failed RDP logon (Windows)
+- User creation (Windows)
+- Command execution
+
+### 7. Alert Analysis (1.5 minutes)
+- Wazuh Dashboard threat hunting
+- Security events and alerts
+- Alert details and metadata
+- Timeline of events
+
+### 8. Conclusion (30 seconds)
+- Key findings
+- SIEM/EDR benefits demonstrated
+- Lessons learned
+- Future improvements
+
+---
+
+## Recommended Classroom Link
+
+**Paste this URL in your Classroom submission:**
+
+```
+[Your Classroom Assignment URL]
+```
+
+Example:
+```
+https://classroom.google.com/XXXXXXXX
+```
+
+---
+
+## Alternative Video Platforms
+
+If you prefer not to use Classroom's native upload:
+
+### Option 1: YouTube (Unlisted)
+1. Upload to YouTube as "Unlisted"
+2. Copy the URL
+3. Paste in Classroom assignment
+
+Example: `https://youtu.be/dQw4w9WgXcQ`
+
+### Option 2: OneDrive / Google Drive
+1. Upload video to cloud storage
+2. Set permission to "Anyone with link can view"
+3. Share the link in Classroom
+
+---
+
+## Video Checklist
+
+Before submitting:
+
+- ✅ Video is 5-10 minutes long
+- ✅ All scenarios are demonstrated
+- ✅ Screenshots/dashboards are clear
+- ✅ Audio is audible and professional
+- ✅ Video covers all required elements
+- ✅ File format is compatible
+- ✅ Permissions allow instructor to view
+- ✅ Link is active and working
+
+---
+
+## Technical Tips
+
+### Recording Tools
+
+**Windows**:
+- OBS Studio (free, open source)
+- Camtasia
+- ScreenFlow
+- Windows 10+ built-in screen recorder (Win + G)
+
+**Mac**:
+- QuickTime (built-in)
+- OBS Studio (free)
+- ScreenFlow
+
+**Linux**:
+- OBS Studio (free)
+- SimpleScreenRecorder
+- Kazam
+
+### Recording Suggestions
+
+- Use a microphone for clear narration
+- Record at 1080p resolution
+- Zoom in on text for readability
+- Pause between sections for clarity
+- Add title cards/transitions if possible
+- Include timestamps in description
+
+### Editing Tips
+
+- Cut out dead time
+- Add background music (optional, copyright-free)
+- Include timestamps in YouTube description
+- Add captions for accessibility
+- Include your project GitHub link in description
+
+---
+
+## Submission Checklist
+
+Before submitting to Classroom:
+
+1. **Video Content**
+   - ✅ Covers all required scenarios
+   - ✅ Shows dashboard with alerts
+   - ✅ Demonstrates both Linux and Windows events
+   - ✅ Clear explanation throughout
+
+2. **Technical Quality**
+   - ✅ Audio is clear and audible
+   - ✅ Screen is readable (good resolution)
+   - ✅ No recording artifacts or glitches
+   - ✅ Color scheme is visible (good contrast)
+
+3. **Submission Format**
+   - ✅ File is uploaded or link is provided
+   - ✅ Permissions allow instructor view
+   - ✅ File naming is clear
+   - ✅ Description includes project GitHub link
+
+4. **Additional Materials**
+   - ✅ README.md is in GitHub repository
+   - ✅ Architecture diagram is included
+   - ✅ Installation guides are complete
+   - ✅ Configuration files are documented
+
+---
+
+## GitHub Link to Include
+
+In your video description or slide:
+
+```
+GitHub Repository:
+https://github.com/your-username/SIEM-Endpoint-Cloud-Project
+
+Complete documentation including:
+- Installation guides
+- Configuration files
+- Screenshots
+- Architecture diagrams
+```
+
+---
+
+## Submission Deadline
+
+**Date**: 07 January 2026, 23:59 UTC
+
+---
+
+**Note**: Update this file with your actual classroom link and video URL once they are available.
+
+**Last Updated**: 7 January 2026
