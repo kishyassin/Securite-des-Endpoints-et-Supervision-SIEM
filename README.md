@@ -215,43 +215,6 @@ net localgroup administrators labuser /add
 | Sysmon Process  | Windows (Sysmon)   | 1        | ✅ Collecté |
 | Sysmon Network  | Windows (Sysmon)   | 3        | ✅ Collecté |
 
----
-
-## 📸 Captures Obligatoires
-
-✅ **Dashboard Wazuh** - Overview et agents actifs  
-✅ **Agent Linux** - Connecté et actif  
-✅ **Agent Windows** - Connecté et actif  
-✅ **Alerte SSH** - Brute force détecté  
-✅ **Alerte Windows** - Failed logon  
-✅ **Alerte Sysmon** - Process/Network tracking  
-✅ **Architecture Diagram** - VPC + Instances + SG
-
-Tous les screenshots sont dans `/docs/` :
-
-- `wazuh-dashboard-screenshots/`
-- `linux-client-screenshots/`
-- `windows-client-screenshots/`
-
----
-
-## 🎥 Vidéo de Présentation
-
-📹 **Durée** : 5-10 minutes maximum  
-📹 **Plateforme** : Google Classroom  
-📹 **Contenu** :
-
-- Introduction du projet (30 sec)
-- Démonstration architecture AWS (1 min)
-- Déploiement Wazuh (1.5 min)
-- Intégration agents (1 min)
-- Génération d'événements (1.5 min)
-- Analyse des alertes dans Wazuh (1.5 min)
-- Conclusion et lessons learned (30 sec)
-
-📎 [Lien Classroom](video/link.txt)
-
----
 
 ## 🔐 Points de Sécurité Clés
 
@@ -281,44 +244,10 @@ Windows-Client SG:
 | Sysmon Process  | Execution         | T1059 | ✅ Sysmon    |
 | Sysmon Network  | Command & Control | T1071 | ✅ Sysmon    |
 
----
 
-## 📊 Rapports Générés
 
-### Rapport Final Structure
 
-1. **Résumé Exécutif** - Objectifs et contexte
-2. **Architecture** - Schémas et topologie
-3. **Déploiement** - Étapes de mise en place
-4. **Scénarios** - Tests réalisés et résultats
-5. **Analyse SIEM vs EDR** - Comparaison des approches
-6. **Gestion Identités (IAM/PAM)** - Contrôle d'accès
-7. **Threat Hunting** - 3 requêtes avancées
-8. **Lessons Learned** - Points clés et amélioration
-9. **Conclusion** - Perspective SOC moderne
-10. **Annexes** - Logs, configs, captures
 
----
-
-## 🚀 Améliorations Futures
-
-🔸 **Intégration Splunk** - Comparaison avec ELK Stack  
-🔸 **Alerting** - Webhooks, Email, Slack notifications  
-🔸 **Forensics avancées** - Timeline reconstruction  
-🔸 **Automation** - Playbooks de réponse (SOAR)  
-🔸 **Machine Learning** - Anomaly detection  
-🔸 **Multi-cloud** - Extension Azure, GCP
-
----
-
-## 📞 Support & Ressources
-
-- **Documentation Wazuh** : https://documentation.wazuh.com
-- **AWS Security Best Practices** : https://aws.amazon.com/security/
-- **MITRE ATT&CK Framework** : https://attack.mitre.org
-- **Sysmon Documentation** : https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
-
----
 
 ## ✍️ Auteur
 
